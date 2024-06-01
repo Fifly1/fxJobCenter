@@ -13,3 +13,11 @@ CREATE TABLE `fx_jobcenter` (
   `job` varchar(30) NOT NULL,
   `applied_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+**|Dependencies|**
+qb-core
+qb-target (optional)
+polyzone
+oxmysql (haven't tried others)
+fxnotify(optional)
+fxtextui(optional)
