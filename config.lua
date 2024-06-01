@@ -1,5 +1,5 @@
 Config = {
-    webhook = "https://discord.com/api/webhooks/1236125257006452888/MVGyRjq4JF7zmWNKU1IUPxaZ9KShHPjCcuDDPT4dDfSOsWGNb8kEkLSvkicWa5eQ645z", -- Paste Discord Webhook URL here to receive messages in a discord channel about submited whitelist applications
+    webhook = "", -- Paste Discord Webhook URL here to receive messages in a discord channel about submited whitelist applications
     UseTarget = GetConvar('UseTarget', 'false') == 'true', -- Use qb-target interactions (don't change this, go to your server.cfg and add `setr UseTarget true` to use this and just that from true to false or the other way around)
     useImages = true, -- If set to false the jobs won't have images
     useFxTextUI = true, -- Whether or not to use our free script fxTextUI (Otherwise will use default qb) 
