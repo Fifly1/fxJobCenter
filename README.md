@@ -21,3 +21,7 @@ polyzone
 oxmysql (haven't tried others)
 fxnotify(optional)
 fxtextui(optional)
+
+**|Version 1.1 Update|**
+
+* Script's name is now changable and won't cause any issues.
