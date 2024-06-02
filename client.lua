@@ -36,7 +36,8 @@ local function setJobCenterPageState(bool, message)
             whitelistJobs = Config.Jobs.Whitelist,
             nonWhitelistJobs = Config.Jobs.NonWhitelist,
             useImages = Config.useImages,
-            closeWhitelistApplications = Config.closeWhitelistApplications
+            closeWhitelistApplications = Config.closeWhitelistApplications,
+            resourceName = GetCurrentResourceName()
         })
     end
     SetNuiFocus(bool, bool)
