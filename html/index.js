@@ -125,7 +125,7 @@ window.addEventListener('message', function(event) {
                         const jobLabel = joinButton.parentElement.getAttribute('data-job-label');
                         const job = whitelistJobs.find(job => job.jobName === jobName);
                         if (!job) {
-                            $.post("https://fx_jobcenter/applyJob", JSON.stringify(jobName));
+                            $.post(`https://${event.data.resourceName}/applyJob`, JSON.stringify(jobName));
                             handleExitButtonClick();
                         } else {
                             const formHTML = `
@@ -171,7 +171,7 @@ window.addEventListener('message', function(event) {
                                         const answer = textarea.value.trim();
                                         questionAnswers.push({ question: questionText, answer: answer });
                                     });
-                                    $.post("https://fx_jobcenter/discord", JSON.stringify({ job: jobName, applyingJob: jobLabel.toString(), qAnswers: questionAnswers }));
+                                    $.post(`https://${event.data.resourceName}/discord`, JSON.stringify({ job: jobName, applyingJob: jobLabel.toString(), qAnswers: questionAnswers }));
                                     handleExitButtonClick();
                                 });
                             }, 450);                                    
@@ -204,7 +204,7 @@ window.addEventListener('message', function(event) {
            setTimeout(() => {
                 document.body.innerHTML = '';
                 $(document.body).fadeIn(1);
-                $.post("https://fx_jobcenter/close", JSON.stringify());
+                $.post(`https://${event.data.resourceName}/close`, JSON.stringify());
             }, 300); 
         }
 
