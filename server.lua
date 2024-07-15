@@ -69,7 +69,7 @@ RegisterNetEvent('fx_jobcenter:server:ApplyJob', function(job, jobCenterCoords)
     local ped = GetPlayerPed(src)
     local pedCoords = GetEntityCoords(ped)
     if not isJobCenter or #(pedCoords - jobCenterCoords) >= 20.0 or not availableJobs[job] then
-        return false -- DropPlayer(source, "Attempted exploit abuse")
+        return false
     end
     local JobInfo = QBCore.Shared.Jobs[job]
     Player.Functions.SetJob(job, 0)
@@ -83,6 +83,19 @@ end)
 RegisterNetEvent('fx_jobcenter:server:DiscordWebhook', function(jobName, newJob, name, job, phone, questionAnswers)
     local src = source
     local JobInfo = QBCore.Shared.Jobs[jobName]
+    local webhookURL
+
+    for _, v in ipairs(Config.Jobs.Whitelist) do
+        if v.jobName == jobName then
+            webhookURL = v.webhook
+            break
+        end
+    end
+
+    if not webhookURL then
+        print("Webhook URL not found for job: " .. jobName)
+        return
+    end
 
     local license, discord
     for k,v in ipairs(GetPlayerIdentifiers(src)) do
@@ -115,7 +128,7 @@ RegisterNetEvent('fx_jobcenter:server:DiscordWebhook', function(jobName, newJob,
             end
         else
             local title = 'FX Job Center | ' .. newJob
-            discordWebhook(title, name, job, phone, questionAnswers, license, discord)
+            discordWebhook(webhookURL, title, name, job, phone, questionAnswers, license, discord)
 
             local updateQuery = "UPDATE fx_jobcenter SET name = ?, job = ?, applied_at = NOW() WHERE license = ? AND job = ?"
             MySQL.Async.execute(updateQuery, {name, newJob, license, newJob}, function(rowsChanged)
@@ -140,13 +153,11 @@ RegisterNetEvent('fx_jobcenter:server:DiscordWebhook', function(jobName, newJob,
     end)
 end)
 
-
 RegisterNetEvent('QBCore:Client:UpdateObject', function()
     QBCore = exports['qb-core']:GetCoreObject()
 end)
 
-
-function discordWebhook(title, name, job, phone, questionAnswers, license, discord)
+function discordWebhook(webhookURL, title, name, job, phone, questionAnswers, license, discord)
     local embed = {
         {
             ["color"] = 7087550,
@@ -182,9 +193,5 @@ function discordWebhook(title, name, job, phone, questionAnswers, license, disco
         })
     end
 
-    PerformHttpRequest(Config.webhook, function(err, text, headers) end, 'POST', json.encode({username = title, embeds = embed}), { ['Content-Type'] = 'application/json' })
+    PerformHttpRequest(webhookURL, function(err, text, headers) end, 'POST', json.encode({username = title, embeds = embed}), { ['Content-Type'] = 'application/json' })
 end
-
-
-
-
