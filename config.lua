@@ -5,7 +5,7 @@ Config = {
     useFxNotify = true, -- Whether or not to use our free script fxNotify (Otherwise will use default qb)
     whitelistCooldown = 24, -- The cooldown period, in hours, during which players can apply exclusively to whitelist jobs(each job has it's own seperate cooldown) before being able to apply again
     closeWhitelistApplications = false, -- When set to true the whitelist tab won't be accesible
-
+    useWaypoints = true, -- When set to true after a player gets a new job a waypoint will be set on his map to his new job
     Locations = {
         {
             coords = vector3(-262.79, -964.18, 30.22),
@@ -91,37 +91,44 @@ Config = {
             {
                 jobLabel = 'Unemployed',
                 jobDescription = 'Currently without employment, seeking opportunities to work and contribute to the community.',
-                jobName = 'unemployed'
+                jobName = 'unemployed',
+                waypoint = nil, -- Here you put the coordinates if you are using useWaypoints. If you don't need a waypoint for a certain job put it as nil.
             },
             {
                 jobLabel = 'Towing',
                 jobDescription = 'Tow vehicles, helping to maintain traffic flow and safety on the roads.',
-                jobName = 'tow'
+                jobName = 'tow',
+                waypoint = vector2(0, 0)
             },
             {
                 jobLabel = 'Trucker',
                 jobDescription = 'Transport goods and materials across long distances, ensuring timely delivery and distribution.',
-                jobName = 'trucker'
+                jobName = 'trucker',
+                waypoint = vector2(0, 0)
             },
             {
                 jobLabel = 'Hotdog Stand',
                 jobDescription = 'Operate a food stand selling hotdogs, providing quick and tasty meals to customers.',
-                jobName = 'hotdog'
+                jobName = 'hotdog',
+                waypoint = vector2(0, 0)
             },
             {
                 jobLabel = 'Reporter',
                 jobDescription = 'Investigate and report on news events, informing the public about current affairs and happenings.',
-                jobName = 'reporter'
+                jobName = 'reporter',
+                waypoint = vector2(0, 0)
             },
             {
                 jobLabel = 'Garbage Collector',
                 jobDescription = 'Collect and dispose of garbage and recycling materials, keeping the streets clean and sanitary.',
-                jobName = 'garbage'
+                jobName = 'garbage',
+                waypoint = vector2(0, 0)
             },
             {
                 jobLabel = 'Bus Driver',
                 jobDescription = 'Operate a bus to transport passengers along designated routes.',
-                jobName = 'bus'
+                jobName = 'bus',
+                waypoint = vector2(0, 0)
             }
         }
     }
