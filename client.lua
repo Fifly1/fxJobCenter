@@ -198,13 +198,42 @@ RegisterNUICallback('close', function(_, cb)
 end)
 
 RegisterNUICallback('applyJob', function(job, cb)
+    local waypoint = nil
+    local currentJob = PlayerData.job
+
+    local isWhitelistJob = false
+        for _, jobInfo in ipairs(Config.Jobs.Whitelist) do
+            if jobInfo.jobName == currentJob.name then
+                isWhitelistJob = true
+                break
+            end
+        end
+
+    if isWhitelistJob then
+        if Config.useFxNotify then
+            exports['fx_notify']:fx_notify("error", Lang:t('info.blip_text'), Lang:t('error.cannot_apply'), 3000)
+        else
+            QBCore.Functions.Notify(Lang:t('info.cannot_apply'), 'error')
+        end
+        return
+    end
+
     if inRangeJobCenter then
+        for _, jobInfo in ipairs(Config.Jobs.NonWhitelist) do
+            if jobInfo.jobName == job then
+                waypoint = jobInfo.waypoint
+                break
+            end
+        end
+        if waypoint ~= nil then
+            SetNewWaypoint(waypoint.x, waypoint.y)
+        end
         TriggerServerEvent('fx_jobcenter:server:ApplyJob', job, Config.Locations[closestJobCenter].coords)
     else
         if Config.useFxNotify then
-            exports['fx_notify']:fx_notify("error", Lang:t('info.blip_text'), Lang:t('info.not_in_range'), 3000)
+            exports['fx_notify']:fx_notify("error", Lang:t('info.blip_text'), Lang:t('error.not_in_range'), 3000)
         else
-            QBCore.Functions.Notify(Lang:t('info.not_in_range'), 'error')
+            QBCore.Functions.Notify(Lang:t('error.not_in_range'), 'error')
         end
     end
     cb('ok')
@@ -223,9 +252,9 @@ RegisterNUICallback('discord', function(data)
         TriggerServerEvent('fx_jobcenter:server:DiscordWebhook', jobName, newJob, name, job, phone, questionAnswers)
     else
         if Config.useFxNotify then
-            exports['fx_notify']:fx_notify("error", Lang:t('info.blip_text'), Lang:t('info.not_in_range'), 3000)
+            exports['fx_notify']:fx_notify("error", Lang:t('info.blip_text'), Lang:t('error.not_in_range'), 3000)
         else
-            QBCore.Functions.Notify(Lang:t('info.not_in_range'), 'error')
+            QBCore.Functions.Notify(Lang:t('error.not_in_range'), 'error')
         end
     end
 end)
