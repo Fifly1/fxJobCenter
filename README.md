@@ -28,10 +28,10 @@ fxtextui(optional)
 
 **|Version 1.2 Update|**
 
-Added individual webhooks for each whitelist job.
+* Added individual webhooks for each whitelist job.
 
 **|Version 1.3 Update|**
 
-Added individual waypoints for each non-whitelist job. After a player changes to a non-whitelist job, the corresponding waypoint is set on the map. This feature can be turned on or off using the useWaypoints variable in the Config.
+* Added individual waypoints for each non-whitelist job. After a player changes to a non-whitelist job, the corresponding waypoint is set on the map. This feature can be turned on or off using the `useWaypoints` variable in the Config.
 
-Implemented a restriction preventing players currently in a whitelist job from applying to non-whitelist jobs.
+* Implemented a restriction preventing players currently in a whitelist job from applying to non-whitelist jobs.
