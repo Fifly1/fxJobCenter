@@ -213,7 +213,7 @@ RegisterNUICallback('applyJob', function(job, cb)
         if Config.useFxNotify then
             exports['fx_notify']:fx_notify("error", Lang:t('info.blip_text'), Lang:t('error.cannot_apply'), 3000)
         else
-            QBCore.Functions.Notify(Lang:t('info.cannot_apply'), 'error')
+            QBCore.Functions.Notify(Lang:t('error.cannot_apply'), 'error')
         end
         return
     end
