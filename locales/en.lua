@@ -1,6 +1,7 @@
 local Translations = {
     error = {
-        not_in_range = 'Too far from the job center'
+        not_in_range = 'Too far from the job center',
+        cannot_apply = 'You cannot apply for non-whitelist jobs'
     },
     info = {
         new_job_app = 'Your application was sent to the boss of %{job}',
