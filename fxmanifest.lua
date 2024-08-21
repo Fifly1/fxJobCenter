@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'fx'
 description 'fxJobCenter'
-version '1.3'
+version '1.4'
 
 ui_page 'html/index.html'
 
