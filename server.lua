@@ -158,40 +158,65 @@ RegisterNetEvent('QBCore:Client:UpdateObject', function()
 end)
 
 function discordWebhook(webhookURL, title, name, job, phone, questionAnswers, license, discord)
-    local embed = {
-        {
-            ["color"] = 7087550,
-            ["title"] = "**New Application**",
-            ["fields"] = {
-                {
-                    ["name"] = "Name:",
-                    ["value"] = name,
-                    ["inline"] = true
+    local embedBase = function()
+        return {
+            {
+                ["color"] = 7087550,
+                ["title"] = title,
+                ["fields"] = {
+                    {
+                        ["name"] = "Name:",
+                        ["value"] = name,
+                        ["inline"] = true
+                    },
+                    {
+                        ["name"] = "Current Job:",
+                        ["value"] = job,
+                        ["inline"] = true
+                    },
+                    {
+                        ["name"] = "Phone Number:",
+                        ["value"] = phone,
+                        ["inline"] = true
+                    }
                 },
-                {
-                    ["name"] = "Current Job:",
-                    ["value"] = job,
-                    ["inline"] = true
+                ["footer"] = {
+                    ["text"] = license .. " " .. discord,
                 },
-                {
-                    ["name"] = "Phone Number:",
-                    ["value"] = phone,
-                    ["inline"] = true
-                }
-            },
-            ["footer"] = {
-                ["text"] = "".. license .." ".. discord,
-            },
+            }
         }
-    }
-
-    for _, qa in ipairs(questionAnswers) do
-        table.insert(embed[1]["fields"], {
-            ["name"] = qa.question,
-            ["value"] = qa.answer,
-            ["inline"] = false
-        })
     end
 
-    PerformHttpRequest(webhookURL, function(err, text, headers) end, 'POST', json.encode({username = title, embeds = embed}), { ['Content-Type'] = 'application/json' })
+    local function sendWebhook(fields, first)
+        local embed = embedBase()
+        embed[1].fields = fields
+        if not first then
+            embed[1].title = ""
+        end
+        PerformHttpRequest(webhookURL, function(err, text, headers)
+            Citizen.Wait(1000)
+        end, 'POST', json.encode({username = title, embeds = embed}), { ['Content-Type'] = 'application/json' })
+    end
+
+    local chunk = ""
+    local currentFields = embedBase()[1].fields
+    local first = true
+    for _, qa in ipairs(questionAnswers) do
+        local qaString = "**" .. qa.question .. "**\n" .. qa.answer .. "\n\n"
+        if #chunk + #qaString > 1000 then
+            table.insert(currentFields, { ["name"] = "", ["value"] = chunk, ["inline"] = false })
+            sendWebhook(currentFields, first)
+            Citizen.Wait(1000)
+            currentFields = embedBase()[1].fields
+            chunk = qaString
+            first = false
+        else
+            chunk = chunk .. qaString
+        end
+    end
+
+    if chunk ~= "" then
+        table.insert(currentFields, { ["name"] = "", ["value"] = chunk, ["inline"] = false })
+        sendWebhook(currentFields, first)
+    end
 end
