@@ -35,3 +35,7 @@ fxtextui(optional)
 * Added individual waypoints for each non-whitelist job. After a player changes to a non-whitelist job, the corresponding waypoint is set on the map. This feature can be turned on or off using the `useWaypoints` variable in the Config.
 
 * Implemented a restriction preventing players currently in a whitelist job from applying to non-whitelist jobs.
+
+**|Version 1.4 Update|**
+
+* The webhook system has been enhanced to automatically split messages that exceed Discord’s limit. This means you can now include unlimited questions and answers with no restrictions on word count.
